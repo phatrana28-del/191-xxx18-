@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<title>PC ZONE STORE</title>
+
+<style>
+:root {
+  --bg:#080808;
+  --card:#141414;
+  --card2:#1b1b1b;
+  --red:#ff2638;
+  --red2:#c90020;
+  --text:#fff;
+  --muted:#a5a5a5;
+  --border:#303030;
+  --green:#35e69a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+button:focus-visible,a:focus-visible,input:focus-visible{
+  outline:2px solid var(--red);outline-offset:3px
+}
+header{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;padding:12px 4%;
+  background:rgba(8,8,8,.96);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px)
+}
+.logo{font-size:21px;font-weight:900;letter-spacing:1px}
+.logo span{color:var(--red)}
+nav{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.btn{
+  border:1px solid var(--border);border-radius:10px;
+  background:var(--card2);color:white;padding:10px 13px;
+  transition:.15s
+}
+.btn:hover{border-color:var(--red);transform:translateY(-1px)}
+.btn-red{background:var(--red);border-color:var(--red);color:white;font-weight:800}
+.btn-red:hover{background:var(--red2)}
+.btn-green{background:#126a49;border-color:#238d65}
+.btn-danger{background:#54151c;border-color:#8f2632}
+.btn-small{padding:7px 10px;font-size:13px}
+main{max-width:1150px;margin:auto;padding:20px 16px 60px}
+.hero{
+  position:relative;overflow:hidden;border:1px solid #3a1519;
+  border-radius:20px;padding:35px 24px;margin:10px 0 24px;
+  background:linear-gradient(120deg,#28070c,#120d0e 55%,#211014);
+  min-height:190px;display:flex;align-items:center
+}
+.hero:after{
+  content:"PZ";position:absolute;right:20px;top:0;
+  font-size:clamp(100px,22vw,220px);font-weight:1000;
+  color:rgba(255,38,56,.09);pointer-events:none
+}
+.hero-content{position:relative;z-index:1}
+.hero h1{font-size:clamp(27px,5vw,45px);margin:0 0 8px}
+.hero h1 span{color:var(--red)}
+.hero p{color:#d0c3c5;max-width:600px;line-height:1.7}
+.section-head{
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:12px;margin:28px 0 15px
+}
+.section-head h2{margin:0;font-size:23px}
+.muted{color:var(--muted)}
+.stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:12px;margin:20px 0
+}
+.stat{background:var(--card);border:1px solid var(--border);
+  border-radius:13px;padding:15px;text-align:center}
+.stat strong{display:block;color:var(--red);font-size:23px}
+.stat span{color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:15px}
+.toolbar input{flex:1;min-width:150px}
+input,textarea,select{
+  width:100%;background:#0b0b0b;color:white;
+  border:1px solid #383838;border-radius:9px;padding:11px;
+  margin:5px 0 12px
+}
+textarea{min-height:85px;resize:vertical}
+label{font-size:13px;color:#ddd}
+.grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px
+}
+.product{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:15px;overflow:hidden;display:flex;flex-direction:column;
+  min-width:0;transition:.2s
+}
+.product:hover{border-color:#7d202a;transform:translateY(-2px)}
+.product img{width:100%;height:175px;object-fit:cover;background:#202020}
+.product-body{padding:14px;display:flex;flex-direction:column;flex:1}
+.product h3{margin:0 0 7px;overflow-wrap:anywhere}
+.product p{color:var(--muted);font-size:13px;line-height:1.6;white-space:pre-wrap}
+.price{font-size:22px;font-weight:900;color:var(--red);margin:8px 0}
+.product-actions{display:flex;gap:7px;margin-top:auto}
+.product-actions button{flex:1}
+.empty{
+  text-align:center;color:var(--muted);padding:35px 10px;
+  background:var(--card);border:1px dashed var(--border);border-radius:13px
+}
+.panel{
+  background:var(--card);border:1px solid var(--border);
+  padding:17px;border-radius:14px;margin:14px 0
+}
+.panel h3{margin-top:0}
+.hidden{display:none!important}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.item{
+  padding:13px;background:#101010;border:1px solid var(--border);
+  border-radius:11px;margin:10px 0;overflow-wrap:anywhere
+}
+.item-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.badge{font-size:12px;color:var(--green)}
+.badge-red{color:#ff6775}
+footer{
+  border-top:1px solid var(--border);padding:25px 15px;
+  text-align:center;color:var(--muted);font-size:13px
+}
+.overlay{
+  position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.8);
+  display:flex;align-items:center;justify-content:center;padding:15px;
+  overflow-y:auto
+}
+.modal{
+  width:min(520px,100%);max-height:90vh;overflow:auto;
+  padding:21px;background:#151515;border:1px solid #393939;
+  border-radius:16px;box-shadow:0 15px 70px #000
+}
+.modal h2{margin-top:0}
+.modal-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}
+.modal-actions button{flex:1}
+.toast{
+  position:fixed;z-index:100;bottom:20px;left:50%;
+  transform:translateX(-50%);background:#202020;border:1px solid #444;
+  border-radius:12px;padding:13px 18px;width:max-content;
+  max-width:90%;box-shadow:0 8px 35px #000
+}
+.mail-key{
+  padding:12px;border:1px dashed #666;border-radius:9px;
+  overflow-wrap:anywhere;background:#080808;margin:10px 0
+}
+.maintenance{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:25px;background:#090909
+}
+@media(max-width:750px){
+  header{align-items:flex-start;flex-direction:column}
+  nav{justify-content:flex-start;width:100%}
+  nav .btn{padding:8px 10px;font-size:12px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .product img{height:130px}
+  .product-body{padding:10px}
+  .product-actions{flex-direction:column}
+}
+@media(max-width:420px){
+  .grid{grid-template-columns:1fr}
+  .product img{height:190px}
+  .stats{gap:7px}
+  .stat{padding:10px 4px}
+  .stat strong{font-size:19px}
+  .row{grid-template-columns:1fr;gap:0}
+}
+</style>
+</head>
+
+<body>
+
+<header id="siteHeader">
+  <a class="logo" href="#home" aria-label="PC ZONE หน้าหลัก">PC <span>ZONE</span></a>
+  <nav>
+    <a class="btn" href="#home">หน้าหลัก</a>
+    <a class="btn" href="#products">สินค้า</a>
+    <button class="btn" onclick="openMailbox()">📬 กล่องข้อความ <span id="mailCount">0</span></button>
+    <button class="btn" onclick="openOrders()">🧾 คำสั่งซื้อ</button>
+    <button class="btn btn-red" onclick="openAccount()">บัญชีของฉัน</button>
+    <button class="btn" onclick="openAdminLogin()">⚙️ แอดมิน</button>
+  </nav>
+</header>
+
+<main id="mainContent">
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1 id="storeTitle">PC <span>ZONE</span> STORE</h1>
+      <p id="storeBio">ร้านค้าดิจิทัล เลือกสินค้าและรับสินค้าในกล่องข้อความของคุณ</p>
+      <a href="#products" class="btn btn-red">เลือกดูสินค้า →</a>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><strong id="statProducts">0</strong><span>สินค้า</span></div>
+    <div class="stat"><strong id="statOrders">0</strong><span>คำสั่งซื้อของฉัน</span></div>
+    <div class="stat"><strong id="statBalance">฿100</strong><span>ยอดเงินในบัญชี</span></div>
+  </section>
+
+  <section id="products">
+    <div class="section-head">
+      <h2>🔥 สินค้าทั้งหมด</h2>
+      <span class="muted" id="productCount">0 รายการ</span>
+    </div>
+    <div class="toolbar">
+      <input id="searchBox" type="search" placeholder="ค้นหาสินค้า..." oninput="renderProducts()">
+      <select id="sortBox" onchange="renderProducts()" style="width:auto;min-width:135px">
+        <option value="default">เรียงตามปกติ</option>
+        <option value="low">ราคาต่ำไปสูง</option>
+        <option value="high">ราคาสูงไปต่ำ</option>
+      </select>
+    </div>
+    <div class="grid" id="productGrid"></div>
+  </section>
+
+  <section id="contact">
+    <div class="section-head"><h2>📞 ติดต่อร้านค้า</h2></div>
+    <div class="panel">
+      <p>หากมีปัญหาเกี่ยวกับคำสั่งซื้อ โปรดติดต่อผู้ดูแลร้าน</p>
+      <div id="contactLinks"></div>
+    </div>
+  </section>
+</main>
+
+<footer id="siteFooter">
+  PC ZONE STORE © <span id="year"></span> · Digital Store
+  <p>โปรดตรวจสอบรายละเอียดสินค้าก่อนสั่งซื้อ</p>
+</footer>
+
+<div id="maintenancePage" class="maintenance hidden">
+  <div>
+    <h1 style="color:var(--red)">🛠️ ปิดปรับปรุงเว็บไซต์</h1>
+    <h2 id="maintenanceTitle">กำลังปรับปรุงระบบ</h2>
+    <p id="maintenanceMessage" class="muted">โปรดลองเข้าใหม่ภายหลัง</p>
+    <p id="maintenanceTimer"></p>
+    <button class="btn" onclick="checkMaintenance()">ตรวจสอบอีกครั้ง</button>
+  </div>
+</div>
+
+<div id="modalOverlay" class="overlay hidden" onclick="overlayClick(event)">
+  <div class="modal" id="modalBox">
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden" role="status"></div>
+
+<script>
+"use strict";
+
+/*
+  PC ZONE STORE — ตัวอย่างเว็บไซต์แบบไฟล์เดียว
+
+  หมายเหตุ:
+  GitHub Pages ไม่มีฐานข้อมูลหรือเซิร์ฟเวอร์หลังบ้านในตัว
+  ข้อมูลชุดนี้จึงเก็บใน localStorage ของเบราว์เซอร์เครื่องนี้
+  การส่งสินค้าใน 20 วินาทีเป็นการจำลองฝั่งเบราว์เซอร์
+  ไม่ใช่ระบบชำระเงินจริงหรือระบบส่งสินค้าบนเซิร์ฟเวอร์
+*/
+
+const DB_KEY = "pczone_store_complete_v5";
+const ADMIN_PASSWORD = "we12";
+const DELIVERY_DELAY = 20000;
+
+const DEFAULT_DB = {
+  settings:{
+    title:"PC ZONE STORE",
+    bio:"ร้านค้าดิจิทัล เลือกสินค้าและรับสินค้าในกล่องข้อความของคุณ",
+    contact:"",
+    maintenance:false,
+    maintenanceTitle:"กำลังปรับปรุงระบบ",
+    maintenanceMessage:"โปรดลองเข้าใหม่ภายหลัง",
+    maintenanceUntil:0
+  },
+  products:[
+    {
+      id:"demo-001",
+      name:"สินค้าแนะนำ",
+      price:0,
+      image:"",
+      link:"",
+      description:"ตัวอย่างสินค้า สามารถแก้ไขหรือลบได้ในหน้าแอดมิน",
+      keys:[],
+      active:true
+    }
+  ],
+  users:[],
+  orders:[],
+  mailbox:[],
+  promos:[],
+  logs:[]
+};
+
+let db = loadDB();
+let currentUser = sessionUser();
+let adminActive = false;
+let toastTimeout;
+let maintenanceInterval;
+
+function loadDB(){
+  try{
+    const raw = localStorage.getItem(DB_KEY);
+    if(!raw) return structuredClone(DEFAULT_DB);
+    const parsed = JSON.parse(raw);
+    return {
+      ...structuredClone(DEFAULT_DB),
+      ...parsed,
+      settings:{...DEFAULT_DB.settings,...(parsed.settings||{})},
+      products:Array.isArray(parsed.products)?parsed.products:[],
+      users:Array.isArray(parsed.users)?parsed.users:[],
+      orders:Array.isArray(parsed.orders)?parsed.orders:[],
+      mailbox:Array.isArray(parsed.mailbox)?parsed.mailbox:[],
+      promos:Array.isArray(parsed.promos)?parsed.promos:[],
+      logs:Array.isArray(parsed.logs)?parsed.logs:[]
+    };
+  }catch(e){
+    console.error("โหลดข้อมูลไม่ได้",e);
+    return structuredClone(DEFAULT_DB);
+  }
+}
+
+function saveDB(){
+  try{
+    localStorage.setItem(DB_KEY,JSON.stringify(db));
+    return true;
+  }catch(e){
+    notify("บันทึกข้อมูลไม่ได้ พื้นที่จัดเก็บอาจเต็ม");
+    return false;
+  }
+}
+
+function uid(prefix="id"){
+  return prefix+"_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,9);
+}
+
+function escapeHTML(value){
+  return String(value??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function money(value){
+  return Number(value||0).toLocaleString("th-TH",{maximumFractionDigits:2});
+}
+
+function dateText(value){
+  if(!value)return "-";
+  return new Date(value).toLocaleString("th-TH");
+}
+
+function sessionUser(){
+  try{
+    const username=sessionStorage.getItem("pczone_current_user");
+    return username||null;
+  }catch(e){return null;}
+}
+
+function setSession(username){
+  currentUser=username;
+  try{
+    if(username)sessionStorage.setItem("pczone_current_user",username);
+    else sessionStorage.removeItem("pczone_current_user");
+  }catch(e){}
+}
+
+function getUser(){
+  return db.users.find(u=>u.username===currentUser)||null;
+}
+
+function notify(message){
+  const el=document.getElementById("toast");
+  el.textContent=message;
+  el.classList.remove("hidden");
+  clearTimeout(toastTimeout);
+  toastTimeout=setTimeout(()=>el.classList.add("hidden"),3200);
+}
+
+function showModal(html){
+  document.getElementById("modalContent").innerHTML=html;
+  document.getElementById("modalOverlay").classList.remove("hidden");
+}
+
+function closeModal(){
+  document.getElementById("modalOverlay").classList.add("hidden");
+  document.getElementById("modalContent").innerHTML="";
+}
+
+function overlayClick(event){
+  if(event.target.id==="modalOverlay")closeModal();
+}
+
+function logAction(action,details=""){
+  db.logs.unshift({
+    id:uid("log"),action,details,time:Date.now(),
+    username:currentUser||"guest"
+  });
+  db.logs=db.logs.slice(0,1000);
+  saveDB();
+}
+
+function checkMaintenance(){
+  const m=db.settings;
+  if(m.maintenance && m.maintenanceUntil && Date.now()>=m.maintenanceUntil){
+    m.maintenance=false;
+    m.maintenanceUntil=0;
+    saveDB();
+  }
+  const active=!!m.maintenance && (!m.maintenanceUntil || Date.now()<m.maintenanceUntil);
+  document.getElementById("maintenancePage").classList.toggle("hidden",!active);
+  document.getElementById("mainContent").classList.toggle("hidden",active);
+  document.getElementById("siteHeader").classList.toggle("hidden",active);
+  document.getElementById("siteFooter").classList.toggle("hidden",active);
+  document.getElementById("maintenanceTitle").textContent=m.maintenanceTitle||"กำลังปรับปรุงระบบ";
+  document.getElementById("maintenanceMessage").textContent=m.maintenanceMessage||"โปรดลองเข้าใหม่ภายหลัง";
+  if(active){
+    if(m.maintenanceUntil){
+      const seconds=Math.max(0,Math.ceil((m.maintenanceUntil-Date.now())/1000));
+      document.getElementById("maintenanceTimer").textContent=
+        "เหลือเวลา "+seconds.toLocaleString("th-TH")+" วินาที";
+    }else{
+      document.getElementById("maintenanceTimer").textContent="ยังไม่กำหนดเวลาสิ้นสุด";
+    }
+  }
+  return active;
+}
+
+function renderAll(){
+  checkMaintenance();
+  renderProducts();
+  renderStats();
+  renderContacts();
+  renderMailboxCount();
+  document.getElementById("storeTitle").textContent=db.settings.title||"PC ZONE STORE";
+  document.getElementById("storeBio").textContent=db.settings.bio||"";
+}
+
+function renderStats(){
+  const user=getUser();
+  document.getElementById("statProducts").textContent=
+    db.products.filter(p=>p.active!==false).length;
+  document.getElementById("statOrders").textContent=
+    user?db.orders.filter(o=>o.username===user.username).length:0;
+  document.getElementById("statBalance").textContent="฿"+money(user?user.balance:100);
+  document.getElementById("productCount").textContent=
+    db.products.filter(p=>p.active!==false).length+" รายการ";
+}
+
+function renderProducts(){
+  const grid=document.getElementById("productGrid");
+  const query=(document.getElementById("searchBox")?.value||"").trim().toLowerCase();
+  let products=db.products.filter(p=>p.active!==false&&
+    (String(p.name).toLowerCase().includes(query)||
+     String(p.description||"").toLowerCase().includes(query)));
+  const sort=document.getElementById("sortBox")?.value||"default";
+  if(sort==="low")products.sort((a,b)=>Number(a.price)-Number(b.price));
+  if(sort==="high")products.sort((a,b)=>Number(b.price)-Number(a.price));
+
+  if(!products.length){
+    grid.className="";
+    grid.innerHTML='<div class="empty">ไม่พบสินค้า</div>';
+    return;
+  }
+  grid.className="grid";
+  grid.innerHTML=products.map(p=>{
+    const image=p.image?escapeHTML(p.image):"";
+    const safeName=escapeHTML(p.name);
+    return `
+      <article class="product">
+        ${image
+          ?`<img src="${image}" alt="${safeName}" loading="lazy" onerror="this.style.display='none'">`
+          :`<div style="height:150px;display:grid;place-items:center;background:#211013;color:#ff2638;font-size:35px;font-weight:900">PZ</div>`}
+        <div class="product-body">
+          <h3>${safeName}</h3>
+          <p>${escapeHTML(p.description||"")}</p>
+          <div class="price">฿${money(p.price)}</div>
+          <div class="muted" style="font-size:12px;margin-bottom:10px">
+            ${p.keys?.length||0} คีย์พร้อมส่ง
+          </div>
+          <div class="product-actions">
+            <button class="btn btn-red" onclick="buyProduct('${escapeHTML(p.id)}')">ซื้อสินค้า</button>
+            <button class="btn" onclick="viewProduct('${escapeHTML(p.id)}')">รายละเอียด</button>
+          </div>
+        </div>
+      </article>`;
+  }).join("");
+}
+
+function viewProduct(id){
+  const p=db.products.find(x=>x.id===id);
+  if(!p)return notify("ไม่พบสินค้า");
+  showModal(`
+    <h2>${escapeHTML(p.name)}</h2>
+    ${p.image?`<img src="${escapeHTML(p.image)}" alt="" style="width:100%;max-height:220px;object-fit:contain">`:""}
+    <p style="white-space:pre-wrap">${escapeHTML(p.description||"ไม่มีรายละเอียด")}</p>
+    <h2 style="color:var(--red)">฿${money(p.price)}</h2>
+    <p class="muted">สินค้าพร้อมส่ง ${p.keys?.length||0} คีย์</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">ปิด</button>
+      <button class="btn btn-red" onclick="closeModal();buyProduct('${escapeHTML(p.id)}')">ซื้อสินค้า</button>
+    </div>
+  `);
+}
+
+function openAccount(){
+  if(getUser()){
+    const u=getUser();
+    showModal(`
+      <h2>👤 บัญชีของฉัน</h2>
+      <div class="item">ชื่อผู้ใช้: <b>${escapeHTML(u.username)}</b></div>
+      <div class="item">ยอดเงิน: <b style="color:var(--red)">฿${money(u.balance)}</b></div>
+      <p class="muted">ยอดเงินนี้เป็นเครดิตตัวอย่าง ไม่ใช่เงินที่ชำระได้จริง</p>
+      <div class="modal-actions">
+        <button class="btn" onclick="openPromos()">ใช้โค้ดส่วนลด</button>
+        <button class="btn" onclick="openMailbox()">กล่องข้อความ</button>
+        <button class="btn btn-danger" onclick="logoutUser()">ออกจากระบบ</button>
+      </div>
+    `);
+    return;
+  }
+  showModal(`
+    <h2>เข้าสู่ระบบ / สมัครสมาชิก</h2>
+    <label>ชื่อผู้ใช้</label>
+    <input id="authUsername" maxlength="30" autocomplete="username" placeholder="ชื่อผู้ใช้">
+    <label>รหัสผ่าน</label>
+    <input id="authPassword" type="password" autocomplete="current-password" placeholder="รหัสผ่าน">
+    <p class="muted">บัญชีตัวอย่างเก็บอยู่ในเบราว์เซอร์เครื่องนี้เท่านั้น</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">ยกเลิก</button>
+      <button class="btn" onclick="registerUser()">สมัครสมาชิก</button>
+      <button class="btn btn-red" onclick="loginUser()">เข้าสู่ระบบ</button>
+    </div>
+  `);
+}
+
+function validCredentials(username,password){
+  return /^[a-zA-Z0-9_-]{3,30}$/.test(username)&&
+    typeof password==="string"&&password.length>=4&&password.length<=100;
+}
+
+function registerUser(){
+  const username=document.getElementById("authUsername")?.value.trim();
+  const password=document.getElementById("authPassword")?.value;
+  if(!validCredentials(username,password))
+    return notify("ชื่อผู้ใช้ 3–30 ตัวอักษร รหัสผ่านอย่างน้อย 4 ตัว");
+  if(db.users.some(u=>u.username.toLowerCase()===username.toLowerCase()))
+    return notify("ชื่อผู้ใช้นี้มีแล้ว");
+  db.users.push({
+    id:uid("user"),username,password,balance:100,usedPromos:[]
+  });
+  saveDB();
+  setSession(username);
+  logAction("สมัครสมาชิก",username);
+  closeModal();
+  renderAll();
+  notify("สมัครสมาชิกสำเร็จ");
+}
+
+function loginUser(){
+  const username=document.getElementById("authUsername")?.value.trim();
+  const password=document.getElementById("authPassword")?.value;
+  const user=db.users.find(u=>u.username===username&&u.password===password);
+  if(!user)return notify("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+  setSession(username);
+  closeModal();
+  renderAll();
+  notify("เข้าสู่ระบบสำเร็จ");
+}
+
+function logoutUser(){
+  setSession(null);
+  closeModal();
+  renderAll();
+  notify("ออกจากระบบแล้ว");
+}
+
+function buyProduct(id){
+  const p=db.products.find(x=>x.id===id&&x.active!==false);
+  if(!p)return notify("ไม่พบสินค้าหรือสินค้าปิดขาย");
+  if(!getUser())return (notify("กรุณาเข้าสู่ระบบก่อนซื้อ"),openAccount());
+
+  showModal(`
+    <h2>ยืนยันการสั่งซื้อ</h2>
+    <div class="item">
+      <b>${escapeHTML(p.name)}</b>
+      <div class="price">฿${money(p.price)}</div>
+      <div>คีย์พร้อมส่ง: ${p.keys?.length||0}</div>
+    </div>
+    <label>UID หรือข้อมูลผู้รับ (ถ้ามี)</label>
+    <input id="buyUid" maxlength="100" placeholder="ใส่ UID (ไม่บังคับ)">
+    <label>หมายเหตุ (ถ้ามี)</label>
+    <textarea id="buyNote" maxlength="500" placeholder="รายละเอียดเพิ่มเติม"></textarea>
+    <p class="muted">หลังยืนยัน คำสั่งซื้อจะเข้าสู่กล่องข้อความ และระบบตัวอย่างจะรอ 20 วินาทีก่อนส่งคีย์</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">ยกเลิก</button>
+      <button class="btn btn-red" onclick="confirmPurchase('${escapeHTML(p.id)}')">ยืนยันการซื้อ</button>
+    </div>
+  `);
+}
+
+function confirmPurchase(id){
+  const p=db.products.find(x=>x.id===id&&x.active!==false);
+  const u=getUser();
+  if(!p||!u)return notify("กรุณาเข้าสู่ระบบใหม่");
+  if(Number(p.price)<0)return notify("ราคาสินค้าไม่ถูกต้อง");
+  if(!Array.isArray(p.keys)||p.keys.length===0)
+    return notify("สินค้านี้ยังไม่มีคีย์ กรุณาติดต่อแอดมิน");
+
+  const price=Number(p.price);
+  if(Number(u.balance)<price)
+    return notify("เครดิตตัวอย่างไม่เพียงพอ");
+
+  const uidValue=document.getElementById("buyUid")?.value.trim()||"";
+  const noteValue=document.getElementById("buyNote")?.value.trim()||"";
+  u.balance=Number(u.balance)-price;
+
+  const order={
+    id:uid("order"),
+    username:u.username,
+    productId:p.id,
+    productName:p.name,
+    price,
+    uid:uidValue,
+    note:noteValue,
+    time:Date.now(),
+    deliveryAt:Date.now()+DELIVERY_DELAY,
+    deliveredAt:0,
+    deliveredKey:"",
+    status:"กำลังเตรียมสินค้า"
+  };
+  db.orders.unshift(order);
+  db.mailbox.unshift({
+    id:uid("mail"),
+    username:u.username,
+    orderId:order.id,
+    title:"รับคำสั่งซื้อแล้ว",
+    message:"คำสั่งซื้อ "+p.name+" กำลังเตรียมสินค้า",
+    key:"",
+    time:Date.now(),
+    read:false
+  });
+  saveDB();
+  logAction("สั่งซื้อ",p.name+" / "+order.id);
+  closeModal();
+  renderAll();
+  notify("รับคำสั่งซื้อแล้ว ตรวจสอบกล่องข้อความได้");
+  openOrders();
+}
+
+function processPendingDeliveries(){
+  let changed=false;
+  for(const order of db.orders){
+    if(order.status!=="กำลังเตรียมสินค้า"||Date.now()<Number(order.deliveryAt||0))continue;
+
+    const p=db.products.find(x=>x.id===order.productId);
+    const keyList=p&&Array.isArray(p.keys)?p.keys:[];
+    if(!p||keyList.length===0){
+      order.status="รอแอดมินเติมคีย์";
+      db.mailbox.unshift({
+        id:uid("mail"),username:order.username,orderId:order.id,
+        title:"สินค้าอยู่ระหว่างรอคีย์",
+        message:"ขณะนี้คีย์สินค้าหมด กรุณารอผู้ดูแลร้านเติมคีย์",
+        key:"",time:Date.now(),read:false
+      });
+      changed=true;
+      continue;
+    }
+
+    const key=String(keyList.shift());
+    order.deliveredKey=key;
+    order.deliveredAt=Date.now();
+    order.status="ส่งสินค้าแล้ว";
+
+    db.mailbox.unshift({
+      id:uid("mail"),
+      username:order.username,
+      orderId:order.id,
+      title:"🎉 ส่งสินค้าเรียบร้อย",
+      message:"สินค้า "+order.productName+" พร้อมใช้งานแล้ว",
+      key,
+      time:Date.now(),
+      read:false
+    });
+    db.logs.unshift({
+      id:uid("log"),action:"ส่งสินค้าแล้ว",
+      details:order.productName+" / "+order.id,
+      time:Date.now(),username:order.username
+    });
+    changed=true;
+  }
+  if(changed){
+    saveDB();
+    renderAll();
+    notify("มีการอัปเดตคำสั่งซื้อ กรุณาตรวจสอบกล่องข้อความ");
+  }
+}
+
+function openMailbox(){
+  if(!getUser())return (notify("กรุณาเข้าสู่ระบบก่อน"),openAccount());
+  const items=db.mailbox.filter(m=>m.username===currentUser);
+  showModal(`
+    <h2>📬 กล่องข้อความของฉัน</h2>
+    <p class="muted">ข้อความและคีย์ที่ส่งแล้วจะอยู่ที่นี่จนกว่าคุณจะลบเอง</p>
+    ${items.length?items.map(m=>`
+      <div class="item">
+        <div class="item-top">
+          <b>${escapeHTML(m.title)}</b>
+          <span class="muted" style="font-size:11px">${dateText(m.time)}</span>
+        </div>
+        <p>${escapeHTML(m.message)}</p>
+        ${m.key?`
+          <div class="mail-key" id="key-${escapeHTML(m.id)}">${escapeHTML(m.key)}</div>
+          <button class="btn btn-green btn-small" onclick="copyKey('${escapeHTML(m.id)}')">📋 คัดลอกคีย์</button>
+        `:""}
+        <div style="margin-top:10px">
+          <button class="btn btn-small" onclick="deleteMail('${escapeHTML(m.id)}')">ลบข้อความนี้</button>
+        </div>
+      </div>
+    `).join(""):'<div class="empty">ยังไม่มีข้อความ</div>'}
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">ปิด</button>
+      <button class="btn" onclick="openOrders()">ดูคำสั่งซื้อ</button>
+    </div>
+  `);
+  items.forEach(m=>m.read=true);
+  saveDB();
+  renderMailboxCount();
+}
+
+async function copyKey(id){
+  const m=db.mailbox.find(x=>x.id===id&&x.username===currentUser);
+  if(!m||!m.key)return notify("ไม่พบคีย์");
+  try{
+    await navigator.clipboard.writeText(m.key);
+    notify("คัดลอกคีย์แล้ว");
+  }catch(e){
+    const ta=document.createElement("textarea");
+    ta.value=m.key;
+    ta.style.position="fixed";
+    ta.style.opacity="0";
+    document.body.appendChild(ta);
+    ta.select();
+    let ok=false;
+    try{ok=document.execCommand("copy")}catch(err){}
+    ta.remove();
+    notify(ok?"คัดลอกคีย์แล้ว":"คัดลอกไม่สำเร็จ กรุณาคัดลอกข้อความด้วยตนเอง");
+  }
+}
+
+function deleteMail(id){
+  const m=db.mailbox.find(x=>x.id===id&&x.username===currentUser);
+  if(!m)return;
+  if(!confirm("ต้องการลบข้อความนี้ใช่ไหม?"))return;
+  db.mailbox=db.mailbox.filter(x=>x.id!==id);
+  saveDB();
+  renderMailboxCount();
+  openMailbox();
+}
+
+function renderMailboxCount(){
+  const count=getUser()?db.mailbox.filter(m=>m.username===currentUser&&!m.read).length:0;
+  document.getElementById("mailCount").textContent=count;
+}
+
+function openOrders(){
+  if(!getUser())return (notify("กรุณาเข้าสู่ระบบก่อน"),openAccount());
+  const orders=db.orders.filter(o=>o.username===currentUser);
+  showModal(`
+    <h2>🧾 คำสั่งซื้อของฉัน</h2>
+    ${orders.length?orders.map(o=>`
+      <div class="item">
+        <div class="item-top">
+          <b>${escapeHTML(o.productName)}</b>
+          <span class="${o.status==="ส่งสินค้าแล้ว"?"badge":"badge-red"}">${escapeHTML(o.status)}</span>
+        </div>
+        <p>เลขคำสั่งซื้อ: ${escapeHTML(o.id)}</p>
+        <p>ราคา: ฿${money(o.price)}</p>
+        <p>เวลา: ${dateText(o.time)}</p>
+        ${o.status==="กำลังเตรียมสินค้า"?`<p class="muted">กำหนดส่งโดยประมาณ: ${dateText(o.deliveryAt)}</p>`:""}
+        ${o.status==="ส่งสินค้าแล้ว"?`<button class="btn btn-green btn-small" onclick="openMailbox()">ดูสินค้าในกล่องข้อความ</button>`:""}
+      </div>
+    `).join(""):'<div class="empty">ยังไม่มีคำสั่งซื้อ</div>'}
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">ปิด</button>
+      <button class="btn" onclick="openMailbox()">กล่องข้อความ</button>
+    </div>
+  `);
+}
+
+function openPromos(){
+  if(!getUser())return (notify("กรุณาเข้าสู่ระบบก่อน"),openAccount());
+  showModal(`
+    <h2>🎟️ ใช้โค้ดเครดิต</h2>
+    <p class="muted">โค้ดที่ผู้ดูแลสร้างในเว็บไซต์ตัวอย่างนี้เท่านั้น</p>
+    <label>โค้ดโปรโมชั่น</label>
+    <input id="promoInput" maxlength="100" placeholder="ใส่โค้ดที่ได้รับ">
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">ปิด</button>
+      <button class="btn btn-red" onclick="redeemPromo()">ยืนยันโค้ด</button>
+    </div>
+  `);
+}
+
+function redeemPromo(){
+  const u=getUser();
+  const code=document.getElementById("promoInput")?.value.trim().toUpperCase();
+  if(!u||!code)return notify("กรุณาใส่โค้ด");
+  const promo=db.promos.find(p=>p.code===code&&p.active&&p.usedBy.length<p.maxUses);
+  if(!promo)return notify("โค้ดไม่ถูกต้องหรือใช้ครบแล้ว");
+  if(u.usedPromos.includes(code))return notify("คุณใช้โค้ดนี้ไปแล้ว");
+  u.balance=Number(u.balance)+Number(promo.amount);
+  u.usedPromos.push(code);
+  promo.usedBy.push(u.username);
+  saveDB();
+  logAction("ใช้โค้ดโปรโมชั่น",code);
+  closeModal();
+  renderAll();
+  notify("เพิ่มเครดิตตัวอย่าง ฿"+money(promo.amount)+" แล้ว");
+}
+
+function openAdminLogin(){
+  if(adminActive)return openAdminPanel();
+  showModal(`
+    <h2>🔐 เข้าสู่ระบบผู้ดูแล</h2>
+    <label>รหัสผ่านแอดมิน</label>
+    <input id="adminPasswordInput" type="password" autocomplete="current-password"
+      placeholder="ใส่รหัสผ่าน" onkeydown="if(event.key==='Enter')adminLogin()">
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">ยกเลิก</button>
+      <button class="btn btn-red" onclick="adminLogin()">ยืนยันรหัสผ่าน</button>
+    </div>
+  `);
+  setTimeout(()=>document.getElementById("adminPasswordInput")?.focus(),50);
+}
+
+function adminLogin(){
+  const input=document.getElementById("adminPasswordInput");
+  if(!input)return;
+  if(input.value!==ADMIN_PASSWORD){
+    input.value="";
+    notify("รหัสผ่านแอดมินไม่ถูกต้อง");
+    input.focus();
+    return;
+  }
+  adminActive=true;
+  logAction("เข้าสู่ระบบแอดมิน");
+  closeModal();
+  openAdminPanel();
+  notify("เข้าสู่หน้าแอดมินสำเร็จ");
+}
+
+function adminLogout(){
+  adminActive=false;
+  closeModal();
+  notify("ออกจากระบบแอดมินแล้ว");
+}
+
+function requireAdmin(){
+  if(!adminActive){
+    notify("กรุณาเข้าสู่ระบบแอดมิน");
+    openAdminLogin();
+    return false;
+  }
+  return true;
+}
+
+function openAdminPanel(){
+  if(!requireAdmin())return;
+  showModal(`
+    <h2>⚙️ แผงควบคุม PC ZONE</h2>
+    <div class="row">
+      <button class="btn btn-red" onclick="adminProducts()">จัดการสินค้า</button>
+      <button class="btn" onclick="adminSettings()">ตั้งค่าเว็บไซต์</button>
+      <button class="btn" onclick="adminPromos()">จัดการโค้ด</button>
+      <button class="btn" onclick="adminOrders()">คำสั่งซื้อ</button>
+      <button class="btn" onclick="adminUsers()">สมาชิกและเครดิต</button>
+      <button class="btn" onclick="adminLogs()">ประวัติระบบ</button>
+    </div>
+    <div class="panel">
+      <h3>สรุปข้อมูล</h3>
+      <p>สินค้า: ${db.products.length}</p>
+      <p>สมาชิก: ${db.users.length}</p>
+      <p>คำสั่งซื้อ: ${db.orders.length}</p>
+      <p>ข้อความในกล่อง: ${db.mailbox.length}</p>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">ปิด</button>
+      <button class="btn btn-danger" onclick="adminLogout()">ออกจากแอดมิน</button>
+    </div>
+  `);
+}
+
+function adminProducts(){
+  if(!requireAdmin())return;
+  showModal(`
+    <h2>📦 จัดการสินค้า</h2>
+    <button class="btn btn-red" onclick="editProduct()">＋ เพิ่มสินค้าใหม่</button>
+    ${db.products.map(p=>`
+      <div class="item">
+        <div class="item-top">
+          <b>${escapeHTML(p.name)}</b>
+          <span>฿${money(p.price)}</span>
+        </div>
+        <p class="muted">คีย์เหลือ ${p.keys?.length||0} · ${p.active===false?"ปิดขาย":"เปิดขาย"}</p>
+        <div class="modal-actions">
+          <button class="btn btn-small" onclick="editProduct('${escapeHTML(p.id)}')">แก้ไข</button>
+          <button class="btn btn-small" onclick="editKeys('${escapeHTML(p.id)}')">จัดการคีย์</button>
+          <button class="btn btn-small" onclick="toggleProduct('${escapeHTML(p.id)}')">${p.active===false?"เปิดขาย":"ปิดขาย"}</button>
+          <button class="btn btn-danger btn-small" onclick="deleteProduct('${escapeHTML(p.id)}')">ลบ</button>
+        </div>
+      </div>
+    `).join("")||'<div class="empty">ยังไม่มีสินค้า</div>'}
+    <div class="modal-actions"><button class="btn" onclick="openAdminPanel()">กลับ</button></div>
+  `);
+}
+
+function editProduct(id){
+  if(!requireAdmin())return;
+  const p=id?db.products.find(x=>x.id===id):null;
+  showModal(`
+    <h2>${p?"แก้ไขสินค้า":"เพิ่มสินค้าใหม่"}</h2>
+    <label>ชื่อสินค้า</label>
+    <input id="pName" maxlength="120" value="${escapeHTML(p?.name||"")}" placeholder="ชื่อสินค้า">
+    <label>ราคา (บาท)</label>
+    <input id="pPrice" type="number" min="0" step="0.01" value="${Number(p?.price||0)}">
+    <label>ลิงก์รูปภาพ (URL)</label>
+    <input id="pImage" type="url" value="${escapeHTML(p?.image||"")}" placeholder="https://example.com/image.jpg">
+    <label>ลิงก์สินค้า (ถ้ามี)</label>
+    <input id="pLink" type="url" value="${escapeHTML(p?.link||"")}" placeholder="https://example.com">
+    <label>รายละเอียด</label>
+    <textarea id="pDescription" maxlength="3000">${escapeHTML(p?.description||"")}</textarea>
+    <p class="muted">เพิ่มคีย์ได้ในเมนูจัดการคีย์ของสินค้า</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="adminProducts()">ยกเลิก</button>
+      <button class="btn btn-red" onclick="saveProduct('${escapeHTML(id||"")}')">บันทึกสินค้า</button>
+    </div>
+  `);
+}
+
+function saveProduct(id){
+  if(!requireAdmin())return;
+  const name=document.getElementById("pName")?.value.trim();
+  const price=Number(document.getElementById("pPrice")?.value);
+  const image=document.getElementById("pImage")?.value.trim();
+  const link=document.getElementById("pLink")?.value.trim();
+  const description=document.getElementById("pDescription")?.value.trim();
+  if(!name)return notify("กรุณาใส่ชื่อสินค้า");
+  if(!Number.isFinite(price)||price<0)return notify("ราคาไม่ถูกต้อง");
+  if(image&&!validHttpUrl(image))return notify("ลิงก์รูปภาพต้องเป็น URL http หรือ https");
+  if(link&&!validHttpUrl(link))return notify("ลิงก์สินค้าต้องเป็น URL http หรือ https");
+  let p=id?db.products.find(x=>x.id===id):null;
+  if(!p){
+    p={id:uid("product"),keys:[],active:true};
+    db.products.push(p);
+  }
+  Object.assign(p,{name,price,image,link,description});
+  saveDB();
+  logAction("บันทึกสินค้า",name);
+  renderAll();
+  adminProducts();
+  notify("บันทึกสินค้าแล้ว");
+}
+
+function validHttpUrl(value){
+  try{
+    const u=new URL(value);
+    return u.protocol==="https:"||u.protocol==="http:";
+  }catch(e){return false;}
+}
+
+function deleteProduct(id){
+  if(!requireAdmin())return;
+  const p=db.products.find(x=>x.id===id);
+  if(!p||!confirm("ต้องการลบสินค้า "+p.name+" ใช่ไหม?"))return;
+  db.products=db.products.filter(x=>x.id!==id);
+  saveDB();
+  logAction("ลบสินค้า",p.name);
+  renderAll();
+  adminProducts();
+}
+
+function toggleProduct(id){
+  if(!requireAdmin())return;
+  const p=db.products.find(x=>x.id===id);
+  if(!p)return;
+  p.active=p.active===false;
+  saveDB();
+  renderAll();
+  adminProducts();
+  notify(p.active?"เปิดขายสินค้าแล้ว":"ปิดขายสินค้าแล้ว");
+}
+
+function editKeys(id){
+  if(!requireAdmin())return;
+  const p=db.products.find(x=>x.id===id);
+  if(!p)return;
+  showModal(`
+    <h2>🔑 จัดการคีย์สินค้า</h2>
+    <p><b>${escapeHTML(p.name)}</b></p>
+    <p class="muted">คีย์แต่ละบรรทัดจะถูกส่งให้ลูกค้า 1 คีย์ต่อ 1 คำสั่งซื้อ</p>
+    <label>คีย์สินค้า (หนึ่งคีย์ต่อหนึ่งบรรทัด)</label>
+    <textarea id="productKeys" style="min-height:220px" placeholder="KEY-001&#10;KEY-002&#10;KEY-003">${escapeHTML((p.keys||[]).join("\n"))}</textarea>
+    <p>จำนวนคีย์: ${(p.keys||[]).length}</p>
+    <div class="modal-actions">
+      <button class="btn" onclick="adminProducts()">กลับ</button>
+      <button class="btn btn-red" onclick="saveKeys('${escapeHTML(p.id)}')">บันทึกคีย์</button>
+    </div>
+  `);
+}
+
+function saveKeys(id){
+  if(!requireAdmin())return;
+  const p=db.products.find(x=>x.id===id);
+  if(!p)return;
+  p.keys=document.getElementById("productKeys").value
+    .split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+  saveDB();
+  logAction("อัปเดตคีย์",p.name+" จำนวน "+p.keys.length);
+  adminProducts();
+  notify("บันทึกคีย์แล้ว");
+}
+
+function adminSettings(){
+  if(!requireAdmin())return;
+  const s=db.settings;
+  showModal(`
+    <h2>🛠️ ตั้งค่าเว็บไซต์</h2>
+    <label>ชื่อร้าน</label>
+    <input id="sTitle" maxlength="100" value="${escapeHTML(s.title)}">
+    <label>ข้อความแนะนำร้าน</label>
+    <textarea id="sBio" maxlength="1000">${escapeHTML(s.bio)}</textarea>
+    <label>ลิงก์ติดต่อ (หนึ่ง URL ต่อหนึ่งบรรทัด)</label>
+    <textarea id="sContact" placeholder="https://example.com">${escapeHTML(s.contact||"")}</textarea>
+    <hr style="border-color:#333">
+    <h3>ระบบปิดปรับปรุง</h3>
+    <label>หัวข้อ</label>
+    <input id="mTitle" value="${escapeHTML(s.maintenanceTitle)}">
+    <label>ข้อความ</label>
+    <textarea id="mMessage">${escapeHTML(s.maintenanceMessage)}</textarea>
+    <label>เวลาปิดปรับปรุง (วินาที, 0 = ไม่กำหนดเวลา)</label>
+    <input id="mSeconds" type="number" min="0" step="1" value="${s.maintenanceUntil?Math.max(0,Math.ceil((s.maintenanceUntil-Date.now())/1000)):0}">
+    <div class="modal-actions">
+      <button class="btn" onclick="openAdminPanel()">กลับ</button>
+      <button class="btn btn-red" onclick="saveSettings()">บันทึกตั้งค่า</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-danger" onclick="setMaintenance(true)">เปิดปิดปรับปรุง</button>
+      <button class="btn btn-green" onclick="setMaintenance(false)">เปิดเว็บไซต์ปกติ</button>
+    </div>
+  `);
+}
+
+function saveSettings(){
+  if(!requireAdmin())return;
+  const title=document.getElementById("sTitle").value.trim();
+  const seconds=Number(document.getElementById("mSeconds").value);
+  if(!title)return notify("กรุณาใส่ชื่อร้าน");
+  if(!Number.isFinite(seconds)||seconds<0)return notify("เวลาไม่ถูกต้อง");
+  Object.assign(db.settings,{
+    title,
+    bio:document.getElementById("sBio").value.trim(),
+    contact:document.getElementById("sContact").value.trim(),
+    maintenanceTitle:document.getElementById("mTitle").value.trim(),
+    maintenanceMessage:document.getElementById("mMessage").value.trim(),
+    maintenanceUntil:seconds>0?Date.now()+seconds*1000:0
+  });
+  saveDB();
+  renderAll();
+  adminSettings();
+  notify("บันทึกการตั้งค่าแล้ว");
+}
+
+function setMaintenance(active){
+  if(!requireAdmin())return;
+  db.settings.maintenance=active;
+  if(active){
+    const input=document.getElementById("mSeconds");
+    const seconds=Math.max(0,Number(input?.value||0));
+    db.settings.maintenanceUntil=seconds>0?Date.now()+seconds*1000:0;
+  }else{
+    db.settings.maintenanceUntil=0;
+  }
+  saveDB();
+  renderAll();
+  notify(active?"เปิดโหมดปิดปรับปรุงแล้ว":"เว็บไซต์กลับมาเปิดตามปกติ");
+  if(active)closeModal();
+  else adminSettings();
+}
+
+function renderContacts(){
+  const box=document.getElementById("contactLinks");
+  const links=(db.settings.contact||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+  box.innerHTML=links.map(url=>{
+    if(!validHttpUrl(url))return "";
+    return `<p><a class="btn" href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">เปิดลิงก์ติดต่อ ↗</a></p>`;
+  }).join("")||'<p class="muted">ผู้ดูแลยังไม่ได้เพิ่มลิงก์ติดต่อ</p>';
+}
+
+function adminPromos(){
+  if(!requireAdmin())return;
+  showModal(`
+    <h2>🎟️ จัดการโค้ดเครดิต</h2>
+    <p class="muted">สร้างโค้ดเครดิตตัวอย่าง ไม่ใช่รหัสชำระเงินจริง</p>
+    <label>จำนวนโค้ดที่ต้องการสร้าง</label>
+    <input id="promoCount" type="number" min="1" max="500" value="5">
+    <label>เครดิตต่อโค้ด</label>
+    <input id="promoAmount" type="number" min="1" value="100">
+    <label>จำนวนผู้ใช้ต่อโค้ด</label>
+    <input id="promoMaxUses" type="number" min="1" max="100000" value="1">
+    <button class="btn btn-red" onclick="generatePromos()">สร้างโค้ด</button>
+    <hr style="border-color:#333">
+    ${db.promos.slice(0,100).map(p=>`
+      <div class="item">
+        <b>${escapeHTML(p.code)}</b> — ฿${money(p.amount)}
+        <p class="muted">ใช้แล้ว ${p.usedBy.length}/${p.maxUses}</p>
+        <button class="btn btn-small" onclick="copyPromo('${escapeHTML(p.code)}')">คัดลอก</button>
+        <button class="btn btn-danger btn-small" onclick="deletePromo('${escapeHTML(p.code)}')">ลบ</button>
+      </div>
+    `).join("")||'<p class="muted">ยังไม่มีโค้ด</p>'}
+    <div class="modal-actions"><button class="btn" onclick="openAdminPanel()">กลับ</button></div>
+  `);
+}
+
+function randomCode(){
+  const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let result="PZ-";
+  for(let i=0;i<12;i++)result+=chars[Math.floor(Math.random()*chars.length)];
+  return result;
+}
+
+function generatePromos(){
+  if(!requireAdmin())return;
+  const count=Math.floor(Number(document.getElementById("promoCount").value));
+  const amount=Number(document.getElementById("promoAmount").value);
+  const maxUses=Math.floor(Number(document.getElementById("promoMaxUses").value));
+  if(!Number.isInteger(count)||count<1||count>500)return notify("จำนวนโค้ดต้องอยู่ระหว่าง 1–500 ต่อครั้ง");
+  if(!Number.isFinite(amount)||amount<1)return notify("จำนวนเครดิตไม่ถูกต้อง");
+  if(!Number.isInteger(maxUses)||maxUses<1||maxUses>100000)return notify("จำนวนสิทธิ์ไม่ถูกต้อง");
+  for(let i=0;i<count;i++){
+    let code;
+    do{code=randomCode()}while(db.promos.some(p=>p.code===code));
+    db.promos.unshift({code,amount,maxUses,usedBy:[],active:true,time:Date.now()});
+  }
+  saveDB();
+  logAction("สร้างโค้ดโปรโมชั่น",count+" โค้ด");
+  adminPromos();
+  notify("สร้างโค้ดเครดิตตัวอย่าง "+count+" โค้ดแล้ว");
+}
+
+async function copyPromo(code){
+  try{
+    await navigator.clipboard.writeText(code);
+    notify("คัดลอกโค้ดแล้ว");
+  }catch(e){notify("โค้ด: "+code)}
+}
+
+function deletePromo(code){
+  if(!requireAdmin())return;
+  if(!confirm("ลบโค้ดนี้ใช่ไหม?"))return;
+  db.promos=db.promos.filter(p=>p.code!==code);
+  saveDB();
+  adminPromos();
+}
+
+function adminOrders(){
+  if(!requireAdmin())return;
+  showModal(`
+    <h2>🧾 คำสั่งซื้อทั้งหมด</h2>
+    ${db.orders.map(o=>`
+      <div class="item">
+        <b>${escapeHTML(o.productName)}</b>
+        <p>ผู้ใช้: ${escapeHTML(o.username)}</p>
+        <p>เลขคำสั่งซื้อ: ${escapeHTML(o.id)}</p>
+        <p>ราคา: ฿${money(o.price)}</p>
+        <p>สถานะ: ${escapeHTML(o.status)}</p>
+        <p>UID: ${escapeHTML(o.uid||"-")}</p>
+        <p>หมายเหตุ: ${escapeHTML(o.note||"-")}</p>
+        <p class="muted">${dateText(o.time)}</p>
+        ${o.status==="รอแอดมินเติมคีย์"?`
+          <button class="btn btn-red btn-small" onclick="adminProducts()">เติมคีย์สินค้า</button>
+        `:""}
+      </div>
+    `).join("")||'<div class="empty">ยังไม่มีคำสั่งซื้อ</div>'}
+    <div class="modal-actions"><button class="btn" onclick="openAdminPanel()">กลับ</button></div>
+  `);
+}
+
+function adminUsers(){
+  if(!requireAdmin())return;
+  showModal(`
+    <h2>👥 สมาชิกและเครดิต</h2>
+    <p class="muted">ปรับเครดิตสำหรับการทดลองในเว็บไซต์นี้เท่านั้น</p>
+    ${db.users.map(u=>`
+      <div class="item">
+        <b>${escapeHTML(u.username)}</b>
+        <p>เครดิต: ฿${money(u.balance)}</p>
+        <label>ตั้งยอดเครดิตใหม่</label>
+        <input id="balance-${escapeHTML(u.id)}" type="number" min="0" value="${Number(u.balance)}">
+        <button class="btn btn-small btn-red" onclick="setUserBalance('${escapeHTML(u.id)}')">บันทึกเครดิต</button>
+      </div>
+    `).join("")||'<div class="empty">ยังไม่มีสมาชิก</div>'}
+    <div class="modal-actions"><button class="btn" onclick="openAdminPanel()">กลับ</button></div>
+  `);
+}
+
+function setUserBalance(id){
+  if(!requireAdmin())return;
+  const u=db.users.find(x=>x.id===id);
+  const input=document.getElementById("balance-"+id);
+  if(!u||!input)return;
+  const balance=Number(input.value);
+  if(!Number.isFinite(balance)||balance<0)return notify("จำนวนเครดิตไม่ถูกต้อง");
+  u.balance=balance;
+  saveDB();
+  logAction("ปรับเครดิต",u.username+" = "+balance);
+  adminUsers();
+  renderAll();
+  notify("บันทึกเครดิตแล้ว");
+}
+
+function adminLogs(){
+  if(!requireAdmin())return;
+  showModal(`
+    <h2>📋 ประวัติระบบ</h2>
+    ${db.logs.slice(0,200).map(l=>`
+      <div class="item">
+        <b>${escapeHTML(l.action)}</b>
+        <p>${escapeHTML(l.details||"")}</p>
+        <p class="muted">${escapeHTML(l.username)} · ${dateText(l.time)}</p>
+      </div>
+    `).join("")||'<div class="empty">ยังไม่มีประวัติ</div>'}
+    <div class="modal-actions">
+      <button class="btn" onclick="openAdminPanel()">กลับ</button>
+      <button class="btn btn-danger" onclick="clearLogs()">ล้างประวัติ</button>
+    </div>
+  `);
+}
+
+function clearLogs(){
+  if(!requireAdmin())return;
+  if(!confirm("ล้างประวัติทั้งหมดใช่ไหม?"))return;
+  db.logs=[];
+  saveDB();
+  adminLogs();
+}
+
+function boot(){
+  document.getElementById("year").textContent=new Date().getFullYear();
+  renderAll();
+  processPendingDeliveries();
+
+  if(maintenanceInterval)clearInterval(maintenanceInterval);
+  maintenanceInterval=setInterval(()=>{
+    checkMaintenance();
+    processPendingDeliveries();
+  },1000);
+
+  document.addEventListener("visibilitychange",()=>{
+    if(!document.hidden){
+      db=loadDB();
+      renderAll();
+      processPendingDeliveries();
+    }
+  });
+
+  window.addEventListener("storage",event=>{
+    if(event.key===DB_KEY){
+      db=loadDB();
+      renderAll();
+      processPendingDeliveries();
+    }
+  });
+
+  window.addEventListener("hashchange",()=>{
+    if(location.hash){
+      const target=document.querySelector(location.hash);
+      if(target)target.scrollIntoView({behavior:"smooth",block:"start"});
+    }
+  });
+}
+
+boot();
+</script>
+</body>
+</html>
